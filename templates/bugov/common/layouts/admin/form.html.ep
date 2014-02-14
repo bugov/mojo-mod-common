@@ -1,0 +1,32 @@
+% layout 'admin';
+% no strict;
+% $item = undef unless defined $item;
+
+<form action="<%= content_for 'action' %>" method="post" enctype="multipart/form-data">
+<table class="table edit-table">
+  <tr>
+    <td style="width:30%"><label class="span12">Название</label></td>
+    <td style="width:70%"><input class="span12" name="name" type="text" placeholder="Название" value="<%= $item ? $item->name : '' %>"></td>
+  </tr>
+  <tr>
+    <td><label class="span12">Url</label></td>
+    <td><input class="span12" name="url" type="text" placeholder="Url"  value="<%= $item ? $item->url : '' %>"></td>
+  </tr>
+  <tr>
+    <td><label class="span12">Часть Url</label></td>
+    <td><input class="span12" name="url_part" type="text" placeholder="Часть Url"  value="<%= $item ? $item->url_part : '' %>"></td>
+  </tr>
+  <%= content_for 'extension' %>
+  <tr>
+    <td><label class="span12">Описание</label></td>
+    <td><textarea class="span12" name="desc" placeholder="Описание"><%= $item ? $item->desc : '' %></textarea></td>
+  </tr>
+  <tr>
+    <td colspan=2 style="text-align: center">
+      <button class="btn btn-success" type="submit"><%= $item ? 'Отредактировать' : 'Создать' %></button>
+      <button class="btn" type="reset">Отмена</button>
+    </td>
+  </tr>
+</table>
+</form>
+<%= content_for 'bottom' %>

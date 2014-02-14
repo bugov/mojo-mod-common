@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    %= stylesheet '/vendor/css/bootstrap.min.css'
+    %= stylesheet '/vendor/css/bootstrap-responsive.min.css'
+    %= stylesheet '/vendor/css/bootstrap-datetimepicker.min.css'
+    %= stylesheet '/vendor/jcrop/css/jquery.Jcrop.min.css'
+    %= stylesheet '/css/style.css'
+    %= javascript '/vendor/js/html5.js'
+    %= javascript '/vendor/js/jquery.min.js'
+    %= javascript '/vendor/js/bootstrap.min.js'
+    %= javascript '/vendor/js/bootstrap-datetimepicker.min.js'
+    %= javascript '/vendor/ckeditor/ckeditor.js'
+    %= javascript '/vendor/ckeditor/config.js'
+    %= javascript '/vendor/jcrop/js/jquery.Jcrop.min.js'
+    %= javascript '/js/script.js'
+  </head>
+  <body>
+    <div class="container admin">
+      <div class="row-fluid">
+        <div class="span3">
+          <ul class="nav nav-list">
+            <li class="nav-header"><a href="<%= url_for 'admin_category_list' %>">Категории</a></li>
+            <li><a href="<%= url_for 'admin_category_create' %>">Создать новую</a></li>
+            <li class="nav-header"><a href="<%= url_for 'admin_product_list' %>">Продукты</a></li>
+            <li><a href="<%= url_for 'admin_product_create' %>">Создать новый</a></li>
+            <li class="nav-header"><a href="<%= url_for 'admin_vendor_list' %>">Производители</a></li>
+            <li><a href="<%= url_for 'admin_vendor_create' %>">Создать новый</a></li>
+            <li class="nav-header"><a href="<%= url_for 'admin_user_list' %>">Пользователи</a></li>
+            <li class="nav-header"><a href="<%= url_for 'admin_review_list' %>">Обзоры</a></li>
+          </ul>
+        </div>
+        <div class="control span9">
+          <h1 class="title"><%= title %></h1>
+          <%= content %>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    $(document).ready(function() {
+      // $(".datepicker").datetimepicker({language: 'ru-RU'});
+      
+      // Init ckeditor for all forms.
+      $(".editor").each(function () {
+        if ($(this).attr('id') == undefined || $(this).attr('id') == '') {
+          $(this).attr('id', 'textarea-' + Math.round(Math.random() * 1000000000));
+        }
+        try {
+          CKEDITOR.replace($(this).attr('id'), {
+            filebrowserUploadUrl: '/file/upload',
+            filebrowserImageUploadUrl: '/file/upload?type=image',
+          });
+        } catch (e) {
+          console.log('Can`t init ckeditor');
+        }
+      });
+      
+      $('.nav-list').height($(window).height());
+      $( window ).resize(function() {
+        $('.nav-list').height($(window).height());
+      });
+      
+      //
+      $('input[name="name"]').keyup(function() {
+        var prefix = $($('input[name="prefix"]').get(0)).attr('data-url');
+        if (typeof(prefix) == 'undefined') {
+          prefix = '';
+        }
+        $('input[name="url"]').val( prefix + '/' + translit($(this).val()).toLowerCase() );
+        $('input[name="url_part"]').val( translit($(this).val()).toLowerCase() );
+      });
+    });
+  </script>
+</html>
